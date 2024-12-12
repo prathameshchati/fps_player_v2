@@ -43,9 +43,9 @@ class GridWorldEnv(gym.Env):
         """
         self._action_to_direction = {
             Actions.RIGHT.value: np.array([1, 0]),
-            Actions.UP.value: np.array([0, 1]),
+            Actions.UP.value: np.array([0, -1]),
             Actions.LEFT.value: np.array([-1, 0]),
-            Actions.DOWN.value: np.array([0, -1]),
+            Actions.DOWN.value: np.array([0, 1]),
         }
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
@@ -149,7 +149,7 @@ class GridWorldEnv(gym.Env):
         )
 
         # Finally, add some gridlines -> remove grid lines, as when we begin grabbing pixel information, it removes visual clutter
-        
+
         # for x in range(self.size + 1):
         #     pygame.draw.line(
         #         canvas,

@@ -5,6 +5,7 @@ from gymnasium.wrappers import FlattenObservation
 import keyboard
 import pygame
 from record_game_data import *
+# from utils import *
 
 """
 Top left of grid is (0,0) and bottom right of grid is (4,4). From our observation, we can get the position of the agent and the target, and then encoder everything else as white space. For the sake of our imitation modeling problem, do not grab the exact positions of our target and agent, rather, encode all the pixels directly. 
@@ -22,6 +23,16 @@ env = gym.make("gymnasium_env/GridWorld-v0", render_mode="human", size=size) # s
 recorder = GameRecorder(save_path="game_data", size=size) # initialize game recorder
 observation, info = env.reset()
 
+# MANUALLY SET FOR TESTING
+# observation={'agent': np.array([0, 3]), 'target': np.array([0, 1])}
+# info={'distance': 2.0}
+
+# record intial state, action = None or -1
+# potentially void terminal state as well
+agent = observation["agent"]
+target = observation["target"]
+recorder.log_state_and_input(agent, target, -1)
+
 running = True
 print("Controls: W (up), S (down), A (left), D (right), Q (quit)")
 while running:
@@ -31,9 +42,9 @@ while running:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:  
-                action = Actions.DOWN.value
-            elif event.key == pygame.K_s:  
                 action = Actions.UP.value
+            elif event.key == pygame.K_s:  
+                action = Actions.DOWN.value
             elif event.key == pygame.K_a:  
                 action = Actions.LEFT.value
             elif event.key == pygame.K_d:  
@@ -58,6 +69,11 @@ while running:
             if terminated or truncated:
                 recorder.save_recording("game_recording.json")
                 observation, info = env.reset()
+
+                # record intial state once env resets, action = None or -1
+                agent = observation["agent"]
+                target = observation["target"]
+                recorder.log_state_and_input(agent, target, -1)
 
     env.render()
 

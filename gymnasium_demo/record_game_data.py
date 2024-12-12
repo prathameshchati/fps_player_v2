@@ -9,15 +9,16 @@ class GameRecorder:
         self.data = []
 
     def reconstruct_grid(self, agent, target):
+
         grid = np.zeros((self.size, self.size), dtype=int) # white (background)
-        grid[target[0], target[1]]=1  # red (target)
-        grid[agent[0], agent[1]]=2  # blue (agent)
+        grid[target[1], target[0]]=1  # red (target)
+        grid[agent[1], agent[0]]=2  # blue (agent)
 
         # if target and agent overlap (game is won), set the position to 3
         if agent[0]==target[0] and agent[1]==target[1]:
-            grid[target[0], target[1]]=3 # blue/red
+            grid[target[1], target[0]]=3 # blue/red
 
-        return grid
+        return grid.flatten()
 
     def log_state_and_input(self, agent, target, action):
         grid = self.reconstruct_grid(agent, target)
