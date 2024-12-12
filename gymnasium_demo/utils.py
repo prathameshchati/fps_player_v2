@@ -65,7 +65,7 @@ def generate_agent_target_positions(observation, actions):
     return positions
 
 
-def reconstruct_grid(agent, target, observation=None, size=5):
+def reconstruct_grid(agent=None, target=None, observation=None, size=5):
     if observation:
         agent=np.array(observation["agent"])
         target=np.array(observation["target"])
