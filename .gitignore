@@ -1,6 +1,6 @@
 # Game data directory
-game_data/
-game_data/*
+simple_game/game_data/
+simple_game/game_data/*
 
 # Python cache files
 __pycache__/
